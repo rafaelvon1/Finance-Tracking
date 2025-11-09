@@ -16,7 +16,7 @@ public class TableSaldo {
 
 
     @Column(name = "id_usuario",nullable = false)
-    private int idUsuario;
+    private int id_usuario;
 
     @Column(name = "descricao_saldo",length = 255,nullable = false)
     private String descricao_saldo;
@@ -42,12 +42,12 @@ public class TableSaldo {
     public void setId(int id) {
         this.id = id;
     }
-    public int getId_usuario() {
-        return idUsuario;
+    public int getid_usuario() {
+        return id_usuario;
     }
 
-    public void setId_usuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setid_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public String getDescricao_saldo() {

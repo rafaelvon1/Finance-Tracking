@@ -31,5 +31,9 @@ public class TableSaldoService {
         updatedProduct = TableSaldo;
         return TableSaldoRepository.save(updatedProduct);
     }
+    public List<TableSaldo> saldo_user(int id){
+        List<TableSaldo> Saldo = TableSaldoRepository.saldo_user(id);
+        return Saldo;
+    }
     
 }

@@ -18,6 +18,7 @@ import com.calazzans.calazzans.entity.TableSaldo;
 import com.calazzans.calazzans.service.TableSaldoService;
 
 
+
 @RestController
 public class SaldoRestCalazzans {
     @Autowired
@@ -55,5 +56,10 @@ public class SaldoRestCalazzans {
     public ResponseEntity<TableSaldo> updateSaldoService(@RequestBody TableSaldo TableSaldo){
         TableSaldo updatedSaldo = TableSaldoService.updateSaldoService(TableSaldo);
         return ResponseEntity.ok(updatedSaldo);
+    }
+    @GetMapping("/saldo/user")
+    public ResponseEntity<List<TableSaldo>> saldo_user(@RequestParam("id_usuario") int id) {
+        List<TableSaldo> viewSaldo= TableSaldoService.saldo_user(id);
+        return ResponseEntity.ok(viewSaldo);
     }
 }

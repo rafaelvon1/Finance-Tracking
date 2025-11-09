@@ -23,11 +23,11 @@
             <div class="info-linha">
                 <div class="info-item">
                     <div>Saldo do mês:</div>
-                    <span class="saldo">R$ 1.500,00</span>
+                    <span class="saldo" id="saldo"></span>
                 </div>
                 <div class="info-item">
                     <div>Despesas do mês:</div>
-                    <span class="despesas">R$ 850,00</span>
+                    <span class="despesas" id="despesas"></span>
                 </div>
             </div>
         </div>
@@ -81,7 +81,8 @@
                 <span class="gasto-atual">R$ 850,00</span> / <span class="meta-total">R$ 1.000,00</span>
             </div>
             <div class="progress-bar-container">
-                <div class="progress-bar-fill" style="width: 85%;"></div>
+                <!-- porcentagem abaixo -->
+                <div class="progress-bar-fill" style="width: 15%;"></div>
             </div>
             <div class="meta-status">
                 Cuidado, você está próximo de atingir a meta.
@@ -99,14 +100,9 @@
         </div>
     </div>
 
-    <div class="grafico-container">
-        <h2>Vendas Mensais</h2>
-        <canvas id="graficoVendas"></canvas>
-    </div>
-
     <div id="modal" class="modal">
         <div id="modal-adicionar" class="modal-conteudo" style="display: none;">
-            <form method="POST" action="#" novalidate>
+            <form id="FormSaldo" method="POST" action="#" novalidate>
                 <input type="hidden" name="form_type" value="add_saldo">
                 <span class="fechar" onclick="fecharModal()">&times;</span>
                 <h2>Adicionar Rendimento</h2>
@@ -142,7 +138,7 @@
         </div>
 
         <div id="modal-remover" class="modal-conteudo" style="display: none;">
-            <form method="POST" action="#" novalidate>
+            <form id="FormDespesa" method="POST" action="#" novalidate>
                 <input type="hidden" name="form_type" value="add_expense">
                 <span class="fechar" onclick="fecharModal()">&times;</span>
                 <h2 style="color: #cc0000;">Adicionar Despesa</h2>
@@ -200,7 +196,7 @@
         </div>
 
         <div id="modal-meta" class="modal-conteudo" style="display: none;">
-            <form method="POST" action="#" novalidate>
+            <form id="FormMeta" method="POST" action="#" novalidate>
                 <input type="hidden" name="form_type" value="set_meta">
                 <span class="fechar" onclick="fecharModal()">&times;</span>
                 <h2>Definir Meta de Gastos</h2>
@@ -212,285 +208,14 @@
 
     </div>
 
+    <script src="../js/vars.js"></script>
 
+    <script src="../js/Meta.js"></script>
+    <script src="../js/Despesa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Dados estáticos para os gráficos
-            const vendasMensaisLabels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
-            const vendasMensaisValores = [500, 750, 600, 900, 800, 1100]; // Valores de exemplo
-            
-            const despesasCategoriaLabels = ['Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Serviços', 'Outros'];
-            const despesasCategoriaValores = [300, 150, 200, 100, 50, 50]; // Total: 850 (Exemplo)
-
-            // Função para mostrar/ocultar despesas
-            window.toggleDespesas = function(botao) {
-                const container = botao.closest('.despesa-lista');
-                const itensOcultos = container.querySelectorAll('.oculto');
-                const ocultosVisiveis = itensOcultos.length > 0 && itensOcultos[0].style.display === 'list-item';
-
-                if (ocultosVisiveis) {
-                    itensOcultos.forEach(item => item.style.display = 'none');
-                    botao.textContent = 'Ver mais';
-                } else {
-                    itensOcultos.forEach(item => item.style.display = 'list-item');
-                    botao.textContent = 'Ver menos';
-                }
-            }
-
-            // Gráfico de Barras - Vendas Mensais
-            const ctx = document.getElementById('graficoVendas').getContext('2d');
-            const graficoVendas = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: vendasMensaisLabels,
-                    datasets: [{
-                        label: 'Vendas',
-                        data: vendasMensaisValores,
-                        backgroundColor: 'rgba(0, 204, 102, 0.7)',
-                        borderColor: 'rgba(0, 204, 102, 1)',
-                        borderWidth: 1,
-                        borderRadius: 6,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#003366',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold'
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Gráfico de Pizza - Despesas por Categoria
-            const ctxPizza = document.getElementById('graficoDespesasPizza').getContext('2d');
-            const graficoDespesasPizza = new Chart(ctxPizza, {
-                type: 'doughnut',
-                data: {
-                    labels: despesasCategoriaLabels,
-                    datasets: [{
-                        label: 'Despesas por Categoria',
-                        data: despesasCategoriaValores,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
-                        borderColor: '#fff',
-                        borderWidth: 2,
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 15,
-                                boxWidth: 12,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-
-            // --- Lógica do Modal ---
-            const modal = document.getElementById('modal');
-            const modalAdicionar = document.getElementById('modal-adicionar');
-            const modalRemover = document.getElementById('modal-remover');
-            const modalMeta = document.getElementById('modal-meta');
-
-            window.abrirModal = function(tipo) {
-                fecharModal();
-                if (tipo === 'adicionar') {
-                    modalAdicionar.style.display = 'block';
-                } else if (tipo === 'remover') {
-                    modalRemover.style.display = 'block';
-                } else if (tipo === 'meta') {
-                    modalMeta.style.display = 'block';
-                }
-                modal.style.display = 'block';
-            }
-
-            window.fecharModal = function() {
-                modal.style.display = 'none';
-                modalAdicionar.style.display = 'none';
-                modalRemover.style.display = 'none';
-                modalMeta.style.display = 'none';
-            }
-
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    fecharModal();
-                }
-            }
-
-            // --- INÍCIO: Lógica de Validação dos Modais e Formatação de Data ---
-            const formAdicionar = document.querySelector('#modal-adicionar form');
-            const formRemover = document.querySelector('#modal-remover form');
-            const formMeta = document.querySelector('#modal-meta form');
-
-            formAdicionar.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const descricao = document.getElementById('descricaoRendimento').value.trim();
-                const valor = document.getElementById('valorRendimento').value;
-                const data = document.getElementById('dataRendimento').value;
-
-                if (descricao === '') {
-                    alert('O campo "Descrição" é obrigatório.');
-                    return;
-                }
-                if (!isNaN(descricao) && isFinite(descricao)) {
-                    alert('A descrição não pode ser apenas um número. Por favor, seja mais descritivo.');
-                    return;
-                }
-
-                if (valor === '' || isNaN(parseFloat(valor)) || parseFloat(valor) <= 0) {
-                    alert('Por favor, insira um valor de rendimento válido e positivo.');
-                    return;
-                }
-
-                if (data === '') {
-                    alert('Por favor, selecione uma data para o rendimento.');
-                    return;
-                }
-
-                const dataISO = document.getElementById('dataRendimento').value;
-                const partesData = dataISO.split('-');
-                const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
-                document.getElementById('dataRendimentoFormatada').value = dataFormatada;
-
-                alert('Formulário de Rendimento Válido. Dados formatados para envio:\nData: ' + dataFormatada + '\nOs dados não serão realmente enviados porque o backend foi removido.');
-                // formAdicionar.submit(); // Descomente para realmente enviar
-            });
-
-            formRemover.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const descricao = document.getElementById('descricaoDespesa').value.trim();
-                const valor = document.getElementById('valorDespesa').value;
-                const data = document.getElementById('dataDespesa').value;
-
-                if (descricao === '') {
-                    alert('O campo "Descrição da Compra" é obrigatório.');
-                    return;
-                }
-                if (!isNaN(descricao) && isFinite(descricao)) {
-                    alert('A descrição não pode ser apenas um número. Por favor, seja mais descritiva.');
-                    return;
-                }
-
-                if (valor === '' || isNaN(parseFloat(valor)) || parseFloat(valor) <= 0) {
-                    alert('Por favor, insira um valor de despesa válido e positivo.');
-                    return;
-                }
-
-                if (data === '') {
-                    alert('Por favor, selecione uma data para a despesa.');
-                    return;
-                }
-
-                const dataISO = document.getElementById('dataDespesa').value;
-                const partesData = dataISO.split('-');
-                const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
-                document.getElementById('dataDespesaFormatada').value = dataFormatada;
-
-                alert('Formulário de Despesa Válido. Dados formatados para envio:\nData: ' + dataFormatada + '\nOs dados não serão realmente enviados porque o backend foi removido.');
-                // formRemover.submit(); // Descomente para realmente enviar
-            });
-
-            formMeta.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const valorMeta = document.getElementById('valorMeta').value;
-
-                if (valorMeta === '' || isNaN(parseFloat(valorMeta)) || parseFloat(valorMeta) <= 0) {
-                    alert('Por favor, insira um valor de meta válido e positivo.');
-                    return;
-                }
-
-                alert('Formulário de Meta Válido. O backend foi removido, então a meta não será salva.');
-                // formMeta.submit(); // Descomente para realmente enviar
-            });
-
-            // --- FIM: Lógica de Validação dos Modais ---
-
-            // Lógica inicial de "Ver mais" para Despesas
-            const listasDespesas = document.querySelectorAll('.quadrado.despesa-lista .lista-itens');
-            listasDespesas.forEach(lista => {
-                const itens = lista.querySelectorAll('li');
-                itens.forEach((item, index) => {
-                    if (index >= 5) {
-                        item.style.display = 'none';
-                        item.classList.add('oculto');
-                    }
-                });
-                if (itens.length > 5) {
-                    const botao = lista.closest('.quadrado').querySelector('.ver-mais-btn');
-                    if (botao) {
-                        botao.textContent = 'Ver mais';
-                    }
-                }
-            });
-
-            // Lógica de Drag and Drop para reordenar os cards
-            const grade = document.querySelector('.grade-quadrados');
-            let itemSendoArrastado = null;
-
-            grade.addEventListener('dragstart', (e) => {
-                if (e.target.classList.contains('quadrado')) {
-                    itemSendoArrastado = e.target;
-                    setTimeout(() => itemSendoArrastado.classList.add('dragging'), 0);
-                    e.dataTransfer.effectAllowed = 'move';
-                }
-            });
-
-            grade.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                const afterElement = getElementAfter(grade, e.clientY);
-                const draggable = document.querySelector('.dragging');
-                if (draggable && afterElement) {
-                    grade.insertBefore(draggable, afterElement);
-                }
-            });
-
-            grade.addEventListener('dragend', () => {
-                if (itemSendoArrastado) {
-                    itemSendoArrastado.classList.remove('dragging');
-                    itemSendoArrastado = null;
-                }
-            });
-
-            function getElementAfter(container, y) {
-                const draggableElements = [...container.querySelectorAll('.quadrado:not(.dragging)')];
-
-                return draggableElements.reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = y - box.top - box.height / 2;
-                    if (offset < 0 && offset > closest.offset) {
-                        return { offset: offset, element: child };
-                    } else {
-                        return closest;
-                    }
-                }, { offset: -Infinity }).element;
-            }
-        });
-    </script>
+    <script src="../js/Saldo.js"></script>
+    <script src="../js/test.js"></script>
+    <script src="../js/FuntionGerenciarCalazzans.js"></script>
 </body>
 
 </html>

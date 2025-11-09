@@ -1,6 +1,6 @@
 async function fetchDados() {
   try {
-    const response = await fetch(`${API_URL}/calazzans`);
+    const response = await fetch(`${API_URL}/usuarios`);
 
     if (!response.ok) {
       throw new Error("Erro ao buscar vagas");
@@ -30,5 +30,5 @@ async function fetchDados() {
 // atualiza a pagina a cada 1 segundo mostrando as novas vagas
 document.addEventListener("DOMContentLoaded", () => {
   fetchDados();
-  setInterval(fetchDados, 1000); 
+  setInterval(fetchDados, 60000); 
 }); ;

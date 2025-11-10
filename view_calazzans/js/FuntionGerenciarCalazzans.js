@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Fechar todos os modais
-    function fecharTodosModais() {
+    window.fecharTodosModais = function() {
         modalAdicionar.style.display = 'none';
         modalRemover.style.display = 'none';
         modalMeta.style.display = 'none';

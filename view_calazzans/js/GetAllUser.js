@@ -47,16 +47,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ============================================================
     if (Array.isArray(dataSaldos)) {
       dataSaldos.forEach((saldo) => {
-        const dataFormatada = saldo.data_saldo
-          ? new Date(saldo.data_saldo).toLocaleDateString("pt-BR")
-          : "-";
-
+        
         // --- Modal ---
         const liModal = document.createElement("li");
         liModal.innerHTML = `
-          ${saldo.tipo_saldo}: R$ ${Number(saldo.valor).toFixed(2)} 
-          <a href="#" onclick="alterarSaldo(${saldo.id_saldo})" title="Editar saldo" style="margin-left:10px;">🖋️</a>
-          <a href="#" onclick="excluirSaldo(${saldo.id_saldo})" title="Excluir saldo" style="margin-left:5px;color:red;">🗑️</a>
+          ${saldo.tipo_saldo}: R$ ${Number(saldo.valor).toFixed(2)} Data: ${saldo.data_saldo} 
+          <a href="#" onclick="editId(${saldo.id}); alterarSaldo(${saldo.id});" title="Editar saldo" style="margin-left:10px;">🖋️</a>
+          <a href="#" onclick="excluirSaldo(${saldo.id})" title="Excluir saldo" style="margin-left:5px;color:red;">🗑️</a>
         `;
         listaSaldoEl.appendChild(liModal);
 
@@ -65,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         liQuad.innerHTML = `
           <span>R$ ${Number(saldo.valor).toFixed(2)}</span>
           <span>${saldo.tipo_saldo}</span>
-          <span>${dataFormatada}</span>
+          <span>${saldo.data_saldo}</span>
         `;
         listaProximosEl.appendChild(liQuad);
       });
@@ -76,16 +73,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ============================================================
     if (Array.isArray(dataDespesas)) {
       dataDespesas.forEach((desp) => {
-        const dataFormatada = desp.data_despesa
-          ? new Date(desp.data_despesa).toLocaleDateString("pt-BR")
-          : "-";
+        
 
         const li = document.createElement("li");
         li.innerHTML = `
           R$ ${Number(desp.valor).toFixed(2)} 
-          <small>(${desp.tag})</small> - ${dataFormatada}
-          <a href="#" onclick="alterarDespesa(${desp.id_despesa})" title="Editar despesa" style="margin-left:10px;">🖋️</a>
-          <a href="#" onclick="excluirDespesa(${desp.id_despesa})" title="Excluir despesa" style="margin-left:5px;color:red;">🗑️</a>
+          <small>(${desp.tag})</small> - ${desp.data_despesa}
+          <a href="#" onclick="alterarDespesa(${desp.id});" title="Editar despesa" style="margin-left:10px;">🖋️</a>
+          <a href="#" onclick="excluirDespesa(${desp.id})" title="Excluir despesa" style="margin-left:5px;color:red;">🗑️</a>
         `;
         listaDespesasEl.appendChild(li);
       });
@@ -102,14 +97,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ============================================================
 // 🔹 Funções para Saldo
 // ============================================================
-window.alterarSaldo = function (id) {
-  alert("🖋️ Aqui você pode implementar a edição do saldo ID: " + id);
+// 🔹 Função principal de alteração
+window.alterarSaldo = async function (id) {
+  try {
+    // Fecha outros modais antes
+    fecharTodosModais();
+    
+    // Abre o modal de adicionar (reutilizado para edição)
+    const modalAdicionar = document.getElementById("modal-adicionar");
+    const modal = document.getElementById("modal"); // fundo/overlay
+    if (modalAdicionar) modalAdicionar.style.display = "block";
+    if (modal) modal.style.display = "block";
+
+    // 🔹 Carrega os dados do saldo e preenche o formulário
+  } catch (error) {
+    console.error("Erro ao abrir modal de edição:", error);
+    alert("Erro ao carregar dados para edição do saldo.");
+  }
 };
+
+// 🔹 Função que busca e preenche o formulário
+
+
 
 window.excluirSaldo = async function (id) {
   if (!confirm("Deseja realmente excluir este saldo?")) return;
   try {
-    const response = await fetch(`${API_URL}/saldo/delete?id=${id}`, { method: "DELETE" });
+    const response = await fetch(`${API_URL}/saldo/delete/${id}`, { method: "DELETE" });
     if (!response.ok) throw new Error("Erro ao excluir saldo");
     alert("🗑️ Saldo excluído com sucesso!");
     location.reload();

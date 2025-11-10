@@ -1,6 +1,5 @@
 package com.calazzans.calazzans.entity;
 import java.time.LocalDate;
-import java.util.Date;
 import jakarta.persistence.*;
 import lombok.*;
 

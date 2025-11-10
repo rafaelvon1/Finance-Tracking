@@ -34,6 +34,8 @@ public class TableDespesaService {
         List<TableDespesa> despesa = TableDespesaRepository.despesa_user(id);
         return despesa;
    }
-
-
+   public void Despesa_meta(int idUsuario, String metaGasto) {
+        TableDespesaRepository.Despesa_meta(idUsuario, metaGasto);
+    }
+  
 }

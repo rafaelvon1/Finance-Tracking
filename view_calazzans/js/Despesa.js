@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("FormDespesa");
+  const DespesaEl = document.getElementById("Despesas");
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // impede reload da página
 
@@ -10,66 +11,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const status = document.getElementById("statusDespesa").value;
     const tag = document.getElementById("tagsDespesa").value;
     const frequencia = document.getElementById("frequenciaDespesa").value;
-    const pagamento = document.getElementById("pagamentoDespesa").value;
+    const forma_pagamento = document.getElementById("pagamentoDespesa").value;
     const parcelas = parseInt(document.getElementById("parcelasDespesa").value);
 
     // 🔹 Validação dos campos obrigatórios
-    if (!descricao) {
-      alert("Por favor, preencha a descrição da despesa.");
-      return;
-    }
+    if (!descricao) return alert("Por favor, preencha a descrição da despesa.");
+    if (isNaN(valor) || valor <= 0) return alert("Informe um valor válido e positivo.");
+    if (!dataISO) return alert("Selecione uma data para a despesa.");
+    if (!parcelas || parcelas < 1) return alert("O número de parcelas deve ser no mínimo 1.");
 
-    if (isNaN(valor) || valor <= 0) {
-      alert("Informe um valor de despesa válido e positivo.");
-      return;
-    }
+    // 🔹 Converter data para formato ISO (exemplo compatível com backend)
+    const data_despesa = new Date(dataISO).toISOString();
 
-    if (!dataISO) {
-      alert("Selecione uma data para a despesa.");
-      return;
-    }
-
-    if (!parcelas || parcelas < 1) {
-      alert("O número de parcelas deve ser no mínimo 1.");
-      return;
-    }
-
-    // 🔹 Formatar data para o formato DD/MM/YYYY
-    const partesData = dataISO.split("-");
-    const dataFormatada = `${partesData[2]}/${partesData[1]}/${partesData[0]}`;
-    document.getElementById("dataDespesaFormatada").value = dataFormatada;
-
-    // 🔹 Simulação de payload (objeto que seria enviado)
+    // 🔹 Criação do objeto (payload) no formato esperado pelo backend
     const payload = {
-      id_usuario: 1, // exemplo fixo
+      id_usuario: 1, // substitua pelo ID real do usuário logado
       descricao_despesa: descricao,
-      valor_despesa: valor,
-      data_despesa: dataFormatada,
+      valor: valor,
+      tag: tag,
       status_despesa: status,
-      tag_despesa: tag,
-      frequencia_despesa: frequencia,
-      pagamento_despesa: pagamento,
-      parcelas_despesa: parcelas
+      frequencia: frequencia,
+      forma_pagamento: forma_pagamento,
+      parcelas: parcelas,
+      meta_gasto: 0.0, // evita erro de null no backend
+      data_despesa: data_despesa
     };
 
-    // 🔹 Exibe no alert (modo de teste)
-    alert(
-      `✅ Formulário válido!\n\n` +
-      `Descrição: ${descricao}\n` +
-      `Valor: R$ ${valor.toFixed(2)}\n` +
-      `Data: ${dataFormatada}\n` +
-      `Status: ${status}\n` +
-      `Tag: ${tag}\n` +
-      `Frequência: ${frequencia}\n` +
-      `Pagamento: ${pagamento}\n` +
-      `Parcelas: ${parcelas}\n\n` +
-      `Os dados não foram enviados pois o backend foi desativado.`
-    );
+    console.log("Enviando payload:", payload);
 
-    // 🔹 Aqui futuramente entrará o fetch() para sua API:
-    /*
+    // 🔹 Envio para a API
     try {
-      const response = await fetch("http://localhost:8080/despesa/add", {
+      const response = await fetch("http://localhost:8080/despesas/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -78,13 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) throw new Error(`Erro: ${response.status}`);
       const result = await response.json();
 
-      alert("Despesa adicionada com sucesso!");
+      alert("✅ Despesa adicionada com sucesso!");
       form.reset();
 
+      // 🔹 Atualiza o saldo na tela somando o novo valor
+      let DespesaAtual = Number(DespesaEl.textContent.replace("R$", "").replace(",", ".")) || 0;
+      DespesaAtual += valor;
+      DespesaEl.textContent = `R$ ${DespesaAtual.toFixed(2)}`;
+
     } catch (error) {
-      console.error("Erro ao enviar os dados:", error);
-      alert("Falha ao adicionar despesa. Tente novamente.");
+      console.error("❌ Erro ao enviar os dados:", error);
+      alert("Falha ao adicionar despesa. Verifique o console para mais detalhes.");
     }
-    */
   });
 });
+

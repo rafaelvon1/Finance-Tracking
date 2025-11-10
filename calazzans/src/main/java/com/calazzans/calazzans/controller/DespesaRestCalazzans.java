@@ -58,4 +58,12 @@ public class DespesaRestCalazzans {
         List<TableDespesa> viewDespesa= TableDespesaService.Despesa_user(id);
         return ResponseEntity.ok(viewDespesa);
     }
+    @PutMapping("/despesas/meta")
+    public ResponseEntity<Void> Despesa_meta(
+            @RequestParam("id_usuario") int idUsuario,
+            @RequestParam("meta") String metaGasto) {
+        
+        TableDespesaService.Despesa_meta(idUsuario, metaGasto);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -39,7 +39,7 @@ public class TableDespesa {
     private int parcelas;
 
     @Column(name = "meta_gasto")
-    private double meta_gasto;
+    private String meta_gasto;
 
     @Column(name = "data_despesa", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -111,11 +111,11 @@ public class TableDespesa {
         this.parcelas = parcelas;
     }
 
-    public double getMeta_gasto() {
+    public String getMeta_gasto() {
         return meta_gasto;
     }
 
-    public void setMeta_gasto(double meta_gasto) {
+    public void setMeta_gasto(String meta_gasto) {
         this.meta_gasto = meta_gasto;
     }
 
@@ -124,7 +124,7 @@ public class TableDespesa {
     }
 
     public void setData_despesa(Date data_despesa) {
-        this.data_despesa = data_despesa == null ? null : new Date(data_despesa.getTime());
+        this.data_despesa = data_despesa;
     }
     public String getTag(){
         return tag;

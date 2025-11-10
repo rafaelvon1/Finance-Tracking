@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("FormDespesa");
-  const DespesaEl = document.getElementById("Despesas");
+  const DespesaEl = document.getElementById("despesas");
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // impede reload da página
 
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Converter data para formato ISO (exemplo compatível com backend)
     const data_despesa = new Date(dataISO).toISOString();
-
+    console.log
     // 🔹 Criação do objeto (payload) no formato esperado pelo backend
     const payload = {
       id_usuario: 1, // substitua pelo ID real do usuário logado
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Envio para a API
     try {
-      const response = await fetch("http://localhost:8080/despesas/add", {
+      const response = await fetch(`${API_URL}/despesas/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

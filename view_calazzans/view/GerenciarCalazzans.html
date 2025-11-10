@@ -35,26 +35,33 @@
         <div class="divisoria"></div>
 
         <div class="botoes">
-            <button class="botao" onclick="abrirModal('adicionar')">+</button>
-            <button class="botao" onclick="abrirModal('remover')">−</button>
+            <button class="botao" onclick="abrirModalAdicionar()">+</button>
+            <button class="botao" onclick="abrirModalRemover()">−</button>
         </div>
     </div>
 
     <div class="grade-quadrados">
+        <!-- Quadrado Saldo -->
         <div class="quadrado" draggable="true">
-            <div class="titulo">Saldo atual</div>
-            <div class="valor">R$ 650,00</div>
+            <div class="titulo-container">
+                <div class="titulo">Saldo atual</div>
+                <button class="botao-meta" onclick="abrirModalListaSaldo()" title="Ver lista de saldos">📋</button>
+            </div>
+            <div class="valor">R$ 0,00</div>
             <div class="proximos-recebimentos">
                 <div class="proximos-recebimentos-titulo">Próximos recebimentos</div>
                 <ul class="lista-datas">
-                    <li> <span>R$ 500,00</span> <span>Bico Web</span> <span>15/11/2025</span></li>
-                    <li> <span>R$ 1.000,00</span> <span>Salário</span> <span>28/11/2025</span></li>
+
                 </ul>
             </div>
         </div>
 
+        <!-- Quadrado Despesas -->
         <div class="quadrado despesa-lista" draggable="true">
-            <div class="titulo">Despesas</div>
+            <div class="titulo-container">
+                <div class="titulo">Despesas</div>
+                <button class="botao-meta" onclick="abrirModalListaDespesas()" title="Ver lista de despesas">📋</button>
+            </div>
             <div class="valor">R$ 850,00</div>
             <ul class="lista-itens">
                 <li>Supermercado - R$ 350,00</li>
@@ -67,21 +74,22 @@
             <button class="ver-mais-btn" onclick="toggleDespesas(this)">Ver mais</button>
         </div>
 
+        <!-- Quadrado Despesas por Categoria -->
         <div class="quadrado" draggable="true">
             <div class="titulo">Despesas por Categoria</div>
             <canvas id="graficoDespesasPizza" style="margin-top: 15px; max-height: 250px;"></canvas>
         </div>
 
+        <!-- Quadrado Meta -->
         <div class="quadrado" draggable="true">
             <div class="titulo-container">
                 <div class="titulo">Meta de Gastos (Mês)</div>
-                <button class="botao-meta" onclick="abrirModal('meta')" title="Definir Meta">🎯</button>
+                <button class="botao-meta" onclick="abrirModalMeta()" title="Definir Meta">🎯</button>
             </div>
             <div class="meta-info">
                 <span class="gasto-atual">R$ 850,00</span> / <span class="meta-total">R$ 1.000,00</span>
             </div>
             <div class="progress-bar-container">
-                <!-- porcentagem abaixo -->
                 <div class="progress-bar-fill" style="width: 15%;"></div>
             </div>
             <div class="meta-status">
@@ -89,6 +97,7 @@
             </div>
         </div>
 
+        <!-- Quadrado Histórico -->
         <div class="quadrado" draggable="true">
             <div class="titulo">Histórico de Gastos</div>
             <ul class="lista-historico">
@@ -100,7 +109,9 @@
         </div>
     </div>
 
+    <!-- Modal principal -->
     <div id="modal" class="modal">
+        <!-- Modal Adicionar -->
         <div id="modal-adicionar" class="modal-conteudo" style="display: none;">
             <form id="FormSaldo" method="POST" action="#" novalidate>
                 <input type="hidden" name="form_type" value="add_saldo">
@@ -122,11 +133,9 @@
                         <input id="valorRendimento" name="valor_rendimento" type="number" step="0.01" placeholder="0.00" class="modal-input" required />
                     </div>
                 </div>
-
                 <label for="dataRendimento" class="modal-label">Data do Rendimento</label>
                 <input id="dataRendimento" type="date" class="modal-input" required />
                 <input type="hidden" id="dataRendimentoFormatada" name="data_rendimento" />
-
                 <label for="frequencia" class="modal-label">Frequência</label>
                 <select id="frequencia" name="frequencia_rendimento" class="modal-input" required>
                     <option value="unica">Única</option>
@@ -137,6 +146,7 @@
             </form>
         </div>
 
+        <!-- Modal Remover -->
         <div id="modal-remover" class="modal-conteudo" style="display: none;">
             <form id="FormDespesa" method="POST" action="#" novalidate>
                 <input type="hidden" name="form_type" value="add_expense">
@@ -144,11 +154,9 @@
                 <h2 style="color: #cc0000;">Adicionar Despesa</h2>
                 <label for="descricaoDespesa" class="modal-label">Descrição da Compra</label>
                 <input id="descricaoDespesa" name="descricao_despesa" type="text" placeholder="Ex: Jantar com amigos" class="modal-input" required />
-
                 <label for="dataDespesa" class="modal-label">Data da Despesa</label>
                 <input id="dataDespesa" type="date" class="modal-input" required />
                 <input type="hidden" id="dataDespesaFormatada" name="data_despesa" />
-
                 <div class="modal-grupo-inline">
                     <div>
                         <label for="valorDespesa" class="modal-label">Valor (R$)</label>
@@ -195,6 +203,7 @@
             </form>
         </div>
 
+        <!-- Modal Meta -->
         <div id="modal-meta" class="modal-conteudo" style="display: none;">
             <form id="FormMeta" method="POST" action="#" novalidate>
                 <input type="hidden" name="form_type" value="set_meta">
@@ -206,10 +215,29 @@
             </form>
         </div>
 
+        <!-- Modal Lista Saldo -->
+        <div id="modal-listaSaldo" class="modal-conteudo" style="display: none;">
+            <span class="fechar" onclick="fecharModalListaSaldo()">&times;</span>
+            <h2>Lista de Saldos Adicionados</h2>
+            <ul>
+                <!-- Os itens serão inseridos pelo JavaScript -->
+            </ul>
+        </div>
+
+        <!-- Modal Lista Despesas -->
+        <div id="modal-listaDespesas" class="modal-conteudo" style="display: none;">
+            <span class="fechar" onclick="fecharModalListaDespesas()">&times;</span>
+            <h2>Lista de Despesas</h2>
+            <ul>
+                <li>Supermercado: R$ 350,00</li>
+                <li>Transporte: R$ 150,00</li>
+                <li>Aluguel: R$ 1.500,00</li>
+            </ul>
+        </div>
+
     </div>
 
     <script src="../js/vars.js"></script>
-
     <script src="../js/Meta.js"></script>
     <script src="../js/Despesa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

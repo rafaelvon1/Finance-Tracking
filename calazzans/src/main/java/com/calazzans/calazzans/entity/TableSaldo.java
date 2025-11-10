@@ -1,4 +1,5 @@
 package com.calazzans.calazzans.entity;
+import java.time.LocalDate;
 import java.util.Date;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +30,7 @@ public class TableSaldo {
 
     @Column(name = "data_saldo", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date data_saldo;
+    private LocalDate data_saldo;
 
     @Column(name = "frequencia",length = 30, nullable = false)
     private String frequencia;
@@ -69,10 +70,10 @@ public class TableSaldo {
     public void setValor(double valor){
         this.valor = valor;
     }
-    public Date getData_saldo(){
+    public LocalDate getData_saldo(){
         return data_saldo;
     }
-    public void setData_saldo(Date data_saldo){
+    public void setData_saldo(LocalDate data_saldo){
         this.data_saldo = data_saldo;
     }
     public String getFrequencia(){

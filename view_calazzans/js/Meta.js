@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // 🔹 Envia pro backend
       const response = await fetch(
-        `http://localhost:8080/despesas/meta?id_usuario=${payload.id_usuario}&meta=${payload.meta}`,
+        `${API_URL}/despesas/meta?id_usuario=${payload.id_usuario}&meta=${payload.meta}`,
         {
           method: "PUT"
         }

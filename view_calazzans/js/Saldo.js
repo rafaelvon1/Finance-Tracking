@@ -13,13 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = document.getElementById("dataRendimento").value;
     const frequencia = document.getElementById("frequencia").value;
 
+    console.log("quanto entrou",data)
     // 🔹 Validações básicas
     if (!descricao) return alert("Por favor, preencha a descrição do saldo.");
     if (!tipo) return alert("Selecione o tipo de saldo.");
     if (isNaN(valor) || valor <= 0) return alert("Informe um valor válido e positivo.");
     if (!data) return alert("Selecione uma data para o saldo.");
     if (!frequencia) return alert("Selecione a frequência do saldo.");
-
+      console.log("dps da validação",data)
     // 🔹 Monta o objeto conforme o formato esperado pelo backend
     const payload = {
       id_usuario,
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Enviando payload:", payload);
 
     try {
-      const response = await fetch("http://localhost:8080/saldo/add", {
+      const response = await fetch(`${API_URL}/saldo/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

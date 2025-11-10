@@ -1,5 +1,6 @@
 package com.calazzans.calazzans.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,7 +44,7 @@ public class TableDespesa {
 
     @Column(name = "data_despesa", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date data_despesa;
+    private LocalDate data_despesa;
 
     // Getters e Setters
 
@@ -119,11 +120,11 @@ public class TableDespesa {
         this.meta_gasto = meta_gasto;
     }
 
-    public Date getData_despesa() {
-        return data_despesa == null ? null : new Date(data_despesa.getTime());
+    public LocalDate getData_despesa() {
+        return data_despesa;
     }
 
-    public void setData_despesa(Date data_despesa) {
+    public void setData_despesa(LocalDate data_despesa) {
         this.data_despesa = data_despesa;
     }
     public String getTag(){

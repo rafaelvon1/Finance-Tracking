@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         listaSaldoEl.appendChild(liModal);
         });
         // --- Quadrado principal (Próximos recebimentos) ---
-        dataSaldos.slice(0,5).forEach((saldo) => {
+      dataSaldos.slice(0,5).forEach((saldo) => {
         const liQuad = document.createElement("li");
         liQuad.innerHTML = `
           <span>R$ ${Number(saldo.valor).toFixed(2)}</span>
@@ -79,8 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ============================================================
     if (Array.isArray(dataDespesas)) {
       dataDespesas.forEach((desp) => {
-        
-
         const li = document.createElement("li");
         li.innerHTML = `
           R$ ${Number(desp.valor).toFixed(2)} 
@@ -89,7 +87,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           <a href="#" onclick="excluirDespesa(${desp.id})" title="Excluir despesa" style="margin-left:5px;color:red;">🗑️</a>
         `;
         listaDespesasEl.appendChild(li);
-
+      });
+      dataDespesas.slice(0,5).forEach((desp) => {
         // --- Quadrado principal (Próximos recebimentos) ---
         const liQuad = document.createElement("li");
         liQuad.innerHTML = `
@@ -97,6 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span>${desp.descricao_despesa}</span>
         `;
         listaDespesaQuadEl.appendChild(liQuad);
+      
       });
     }
 

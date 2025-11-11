@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const id_usuario = 1;
+    const agrupado = {};
 
     try {
         // 🔹 Busca despesas do usuário
@@ -9,8 +10,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (Array.isArray(tags_despesa) && tags_despesa.length > 0) {
             // Preparar arrays para gráfico
-            const despesasCategoriaLabels = tags_despesa.map(d => d.tag);
-            const despesasCategoriaValores = tags_despesa.map(d => d.valor);
+            
+
+            tags_despesa.forEach(d => {
+            if (agrupado[d.tag]) {
+                agrupado[d.tag] += d.valor; // soma valores repetidos
+            } else {
+                agrupado[d.tag] = d.valor; // cria nova chave
+            }
+            });
+            const despesasCategoriaLabels = Object.keys(agrupado); // ['alimentacao', 'transporte', 'lazer']
+            const despesasCategoriaValores = Object.values(agrupado); // [150, 50, 200]
+
 
             // Gráfico de Pizza - Despesas por Categoria
             const ctxPizza = document.getElementById('graficoDespesasPizza').getContext('2d');

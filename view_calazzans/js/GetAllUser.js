@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const listaSaldoEl = document.querySelector("#modal-listaSaldo ul");
   const listaDespesasEl = document.querySelector("#modal-listaDespesas ul");
   const listaProximosEl = document.querySelector(".lista-datas");
+  const listaDespesaQuadEl = document.querySelector(".lista-itens");
   const valorQuadradoEl = document.querySelector(".quadrado .valor");
+  const valorDespesaQuadradoEl = document.querySelector(".quadrado .valor_despesa");
   const id_usuario = 1; // Exemplo fixo — depois será dinâmico via login
 
   try {
@@ -37,11 +39,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     const saldoLiquido = totalSaldo - totalDespesas;
     valorQuadradoEl.textContent = `R$ ${saldoLiquido.toFixed(2)}`;
 
+    //Despesa
+
+    valorDespesaQuadradoEl.textContent = `R$ ${totalDespesas.toFixed(2)}`
     // 🔹 Limpa listas antes de preencher
     listaSaldoEl.innerHTML = "";
     listaDespesasEl.innerHTML = "";
     listaProximosEl.innerHTML = "";
-
+    listaDespesaQuadEl.innerHTML="";
     // ============================================================
     // 🔸 LISTA DE SALDOS (modal + quadrado principal)
     // ============================================================
@@ -56,8 +61,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           <a href="#" onclick="excluirSaldo(${saldo.id})" title="Excluir saldo" style="margin-left:5px;color:red;">🗑️</a>
         `;
         listaSaldoEl.appendChild(liModal);
-
+        });
         // --- Quadrado principal (Próximos recebimentos) ---
+        dataSaldos.slice(0,5).forEach((saldo) => {
         const liQuad = document.createElement("li");
         liQuad.innerHTML = `
           <span>R$ ${Number(saldo.valor).toFixed(2)}</span>
@@ -79,10 +85,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         li.innerHTML = `
           R$ ${Number(desp.valor).toFixed(2)} 
           <small>(${desp.tag})</small> - ${desp.data_despesa}
-          <a href="#" onclick="alterarDespesa(${desp.id});" title="Editar despesa" style="margin-left:10px;">🖋️</a>
+          <a href="#" onclick="editId_despesa(${desp.id});alterarDespesa(${desp.id});" title="Editar despesa" style="margin-left:10px;">🖋️</a>
           <a href="#" onclick="excluirDespesa(${desp.id})" title="Excluir despesa" style="margin-left:5px;color:red;">🗑️</a>
         `;
         listaDespesasEl.appendChild(li);
+
+        // --- Quadrado principal (Próximos recebimentos) ---
+        const liQuad = document.createElement("li");
+        liQuad.innerHTML = `
+          <span>R$ ${Number(desp.valor).toFixed(2)}</span>
+          <span>${desp.descricao_despesa}</span>
+        `;
+        listaDespesaQuadEl.appendChild(liQuad);
       });
     }
 
@@ -98,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // 🔹 Funções para Saldo
 // ============================================================
 // 🔹 Função principal de alteração
-window.alterarSaldo = async function (id) {
+window.alterarSaldo = async function () {
   try {
     // Fecha outros modais antes
     fecharTodosModais();
@@ -115,9 +129,6 @@ window.alterarSaldo = async function (id) {
     alert("Erro ao carregar dados para edição do saldo.");
   }
 };
-
-// 🔹 Função que busca e preenche o formulário
-
 
 
 window.excluirSaldo = async function (id) {
@@ -136,14 +147,28 @@ window.excluirSaldo = async function (id) {
 // ============================================================
 // 🔹 Funções para Despesas
 // ============================================================
-window.alterarDespesa = function (id) {
-  alert("🖋️ Aqui você pode implementar a edição da despesa ID: " + id);
+window.alterarDespesa = function () {
+  try {
+    // Fecha outros modais antes
+    fecharTodosModais();
+    
+    // Abre o modal de adicionar (reutilizado para edição)
+    const modalAdicionar = document.getElementById("modal-remover");
+    const modal = document.getElementById("modal"); // fundo/overlay
+    if (modalAdicionar) modalAdicionar.style.display = "block";
+    if (modal) modal.style.display = "block";
+
+    // 🔹 Carrega os dados do saldo e preenche o formulário
+  } catch (error) {
+    console.error("Erro ao abrir modal de edição:", error);
+    alert("Erro ao carregar dados para edição da despesa.");
+  }
 };
 
 window.excluirDespesa = async function (id) {
   if (!confirm("Deseja realmente excluir esta despesa?")) return;
   try {
-    const response = await fetch(`${API_URL}/despesas/delete?id=${id}`, { method: "DELETE" });
+    const response = await fetch(`${API_URL}/despesas/delete/${id}`, { method: "DELETE" });
     if (!response.ok) throw new Error("Erro ao excluir despesa");
     alert("🗑️ Despesa excluída com sucesso!");
     location.reload();

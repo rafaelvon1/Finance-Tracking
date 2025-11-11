@@ -1,6 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("FormDespesa");
   const DespesaEl = document.getElementById("despesas");
+  const id_usuario = 1;
+  let editId = null;
+  window.editId_despesa = function (id) {
+  editId = id;
+  carregarDadosDespesa(id);
+  };
+
+  // 🔹 Carrega dados no formulário de despesas
+  async function carregarDadosDespesa(id) {
+    console.log("🟡 Carregando dados da despesa...");
+    try {
+      console.log("caiu onde deveria",id)
+      const response = await fetch(`${API_URL}/despesas/${id}`);
+      if (!response.ok) throw new Error("Erro ao buscar despesa");
+
+      const despesa = await response.json();
+
+      // Preenche os campos do formulário
+      document.getElementById("descricaoDespesa").value = despesa.descricao_despesa || "";
+      document.getElementById("valorDespesa").value = despesa.valor || "";
+      document.getElementById("dataDespesa").value = despesa.data_despesa?.split("T")[0] || "";
+      document.getElementById("pagamentoDespesa").value = despesa.forma_pagamento || "";
+      document.getElementById("frequenciaDespesa").value = despesa.frequencia || "";
+      document.getElementById("parcelasDespesa").value = despesa.parcelas || "";
+      document.getElementById("statusDespesa").value = despesa.status_despesa || "";
+      document.getElementById("tagsDespesa").value = despesa.tag || "";
+
+      console.log("💾 Dados carregados para edição:", despesa);
+    } catch (error) {
+      console.error("❌ Erro ao carregar dados:", error);
+      alert("Falha ao carregar informações da despesa para edição.");
+    }
+  }
+
+
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault(); // impede reload da página
 
@@ -25,7 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log
     // 🔹 Criação do objeto (payload) no formato esperado pelo backend
     const payload = {
-      id_usuario: 1, // substitua pelo ID real do usuário logado
+      id: editId || undefined,
+      id_usuario, // substitua pelo ID real do usuário logado
       descricao_despesa: descricao,
       valor: valor,
       tag: tag,
@@ -41,26 +78,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Envio para a API
     try {
-      const response = await fetch(`${API_URL}/despesas/add`, {
-        method: "POST",
+      
+      const endpoint = editId ? `${API_URL}/despesas/update` : `${API_URL}/despesas/add`;
+      const method = editId ? "PUT" : "POST"; // se o backend espera sempre POST
+
+      const response = await fetch(endpoint, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
       if (!response.ok) throw new Error(`Erro: ${response.status}`);
       const result = await response.json();
+      
+      if (editId) {
+        alert("✅ Despesa atualizado com sucesso!");
+      } else {
+        alert("✅  cadastrado com sucesso!");
+      }
 
-      alert("✅ Despesa adicionada com sucesso!");
-      form.reset();
-
-      // 🔹 Atualiza o saldo na tela somando o novo valor
-      let DespesaAtual = Number(DespesaEl.textContent.replace("R$", "").replace(",", ".")) || 0;
-      DespesaAtual += valor;
-      DespesaEl.textContent = `R$ ${DespesaAtual.toFixed(2)}`;
+      // 🔹 Recarrega a página após sucesso
+      window.location.reload();
 
     } catch (error) {
       console.error("❌ Erro ao enviar os dados:", error);
-      alert("Falha ao adicionar despesa. Verifique o console para mais detalhes.");
+      alert("Falha ao salvar o saldo. Verifique o console para detalhes.");
     }
   });
 });

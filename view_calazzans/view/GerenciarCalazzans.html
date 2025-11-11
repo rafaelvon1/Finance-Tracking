@@ -62,16 +62,9 @@
                 <div class="titulo">Despesas</div>
                 <button class="botao-meta-red" onclick="abrirModalListaDespesas()" title="Ver lista de despesas">📋</button>
             </div>
-            <div class="valor">R$ 0,00</div>
+            <div class="valor_despesa">R$ 0,00</div>
             <ul class="lista-itens">
-                <li>Supermercado - R$ 350,00</li>
-                <li>Transporte - R$ 150,00</li>
-                <li>Aluguel - R$ 1.500,00 <span class="oculto"> (Exemplo oculto)</span></li>
-                <li class="oculto">Internet - R$ 90,00</li>
-                <li class="oculto">Academia - R$ 80,00</li>
-                <li class="oculto">Lazer - R$ 180,00</li>
             </ul>
-            <button class="ver-mais-btn" onclick="toggleDespesas(this)">Ver mais</button>
         </div>
 
         <!-- Quadrado Despesas por Categoria -->
@@ -219,7 +212,7 @@
         <div id="modal-listaSaldo" class="modal-conteudo" style="display: none;">
             <span class="fechar" onclick="fecharModalListaSaldo()">&times;</span>
             <h2>Lista de Saldos Adicionados</h2>
-            <ul>
+            <ul id="listapesqModal" class="lista-pesq">
                 <!-- Os itens serão inseridos pelo JavaScript -->
             </ul>
         </div>
@@ -228,7 +221,7 @@
         <div id="modal-listaDespesas" class="modal-conteudo" style="display: none;">
             <span class="fechar" onclick="fecharModalListaDespesas()">&times;</span>
             <h2>Lista de Despesas</h2>
-            <ul>
+            <ul id="listapesqModal" class="lista-pesq">
                 <li>Supermercado: R$ 350,00</li>
                 <li>Transporte: R$ 150,00</li>
                 <li>Aluguel: R$ 1.500,00</li>

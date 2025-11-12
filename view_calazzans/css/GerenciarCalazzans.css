@@ -112,7 +112,27 @@
             background-color: #00b35a;
             transform: scale(1.05);
         }
+        
+        .botao_remover {
+            background-color: #ff0000;
+            border: none;
+            color: white;
+            font-size: 28px;
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
+        .botao_remover:hover {
+            background-color: #ff0505;
+            transform: scale(1.05);
+        }
         /* Grade de quadrados de informações */
         .grade-quadrados {
             width: 90%;

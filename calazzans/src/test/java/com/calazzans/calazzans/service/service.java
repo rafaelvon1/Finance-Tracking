@@ -1,22 +1,20 @@
 package com.calazzans.calazzans.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import java.time.LocalDate;
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.calazzans.calazzans.repository.TableDespesaRepository;
+
 import com.calazzans.calazzans.entity.TableDespesa;
+import com.calazzans.calazzans.repository.TableDespesaRepository;
 
 class service {
     @Mock
@@ -32,31 +30,34 @@ class service {
     }
     @Test
     @DisplayName("Teste Unitario Calazzans")
-    void updateDespesaServiceSuccessfully() throws Exception{
+    void InsertDespesaServiceSuccessfully() throws Exception{
 
         //Arrange
-        Integer id = 1;
-        Double valor = 20.99;
 
         //simula dados de um aluno no BD
-        TableDespesa TableDespesa = new TableDespesa(1,1,"Descrição",22.99,"alimentação","pendente","Semanal","pix",5,null,LocalDate.of(2025, 11, 12));
+        TableDespesa despesa = new TableDespesa(1,1,"Descrição",22.99,"alimentação","pendente","Semanal","pix",5,null,LocalDate.of(2025, 11, 12));
 
         //simula chamadas de métodos "mockados"
-        when(TableDespesaRepository.findById(id)).thenReturn(Optional.of(TableDespesa));
-        when(TableDespesaRepository.save(TableDespesa)).thenReturn(TableDespesa);
+        /*when(TableDespesaRepository.findById(id)).thenReturn(Optional.of(TableDespesa));
+        when(TableDespesaRepository.save(TableDespesa)).thenReturn(TableDespesa);*/
 
+        // mockado(mosquito)
+        when(TableDespesaRepository.save(despesa)).thenReturn(despesa);
         //Act
-        service.getAllDespesa();
+        TableDespesa  resultado  =  service.insertDespesaService(despesa);
     
         
 
         //Assert
-        verify(alunoRepository, times(1)).findById(id);
+
+        verify(TableDespesaRepository, times(1)).save(despesa);
+        assertEquals(despesa, resultado);
+        /*verify(alunoRepository, times(1)).findById(id);
         verify(alunoRepository, times(1)).save(any());
-        assertEquals(aluno.getMassaatual(), novamassa);
+        assertEquals(aluno.getMassaatual(), novamassa);*/
     }
 
-    @Test
+    /*@Test
     @DisplayName("Should Update IMC from Aluno unsuccessfully")
     void updateImcAlunoServiceUnSuccessfully() throws Exception{
 
@@ -79,7 +80,7 @@ class service {
         //Assert
         assertEquals("IMC não atualizado", exception.getMessage());
     }
-}
+}*/
 
 
 }

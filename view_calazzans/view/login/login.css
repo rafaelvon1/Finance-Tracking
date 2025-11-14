@@ -1,0 +1,204 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #384049; /* Fundo escuro como na imagem */
+}
+
+/* Container Principal (o "cartão" central) */
+.login-container {
+    display: flex;
+    width: 900px;
+    height: 500px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden; /* Garante que o conteúdo interno respeite o border-radius */
+}
+
+/* Coluna Esquerda: Contexto */
+.side-panel {
+    flex: 1.2;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f0f2f5; 
+    border-right: 1px solid #e0e0e0;
+}
+
+.logo-name {
+    font-size: 1.2rem;
+    color: #0E6655;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.headline {
+    font-size: 1.8rem;
+    color: #333333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Estilização para o gráfico de crescimento simulado */
+.growth-visual {
+    background: linear-gradient(135deg, #a8e6cf 0%, #3e8d76 100%);
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.growth-visual .fas {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+.growth-visual p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.benefits {
+    list-style: none;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.benefits li {
+    margin-bottom: 8px;
+}
+
+.benefits .fas {
+    color: #1E8449;;
+    margin-right: 8px;
+}
+
+/* Coluna Direita: Formulário */
+.login-form-panel {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-title {
+    font-size: 1.5rem;
+    color: #333333;
+    margin-bottom: 30px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #1E8449;
+}
+
+.password-group input {
+    /* Ajusta padding para ícones internos */
+    padding-left: 40px;
+    padding-right: 40px; 
+}
+
+.input-icon,
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666666;
+}
+
+.input-icon {
+    left: 15px;
+    font-size: 0.9rem;
+}
+
+.password-toggle {
+    right: 15px;
+    cursor: pointer;
+}
+
+.security-text {
+    font-size: 0.8rem;
+    color: #1E8449;
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 25px;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #1E8449;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-login:hover {
+    background-color: #0E6655;
+    transform: translateY(-1px);
+}
+
+/* Links secundários */
+.links-section {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9rem;
+}
+
+.forgot-password {
+    color: #666666;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 15px;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: #1E8449;
+    text-decoration: underline;
+}
+
+.btn-signup {
+    color:#1E8449;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.btn-signup:hover {
+    color: #0E6655;
+    text-decoration: underline;
+}

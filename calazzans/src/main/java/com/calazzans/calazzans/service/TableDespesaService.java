@@ -14,12 +14,16 @@ import com.calazzans.calazzans.repository.TableDespesaRepository;
 public class TableDespesaService {
    @Autowired
    TableDespesaRepository TableDespesaRepository;
-   public List<TableDespesa> getAllDespesa(){
+   public List<TableDespesa> getAllDespesa() {
         List<TableDespesa> despesa = TableDespesaRepository.findAll();
         return despesa;
    }
-   public TableDespesa insertDespesaService(TableDespesa TableDespesa){
+   public TableDespesa insertDespesaService(TableDespesa TableDespesa)throws Exception{
+     try {
         return TableDespesaRepository.save(TableDespesa);
+     } catch (Exception e) {
+        throw new Exception("IMC não atualizado");
+     }
    }
    public Optional<TableDespesa> getDespesaService(Integer id){
         return TableDespesaRepository.findById(id);

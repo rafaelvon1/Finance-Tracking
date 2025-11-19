@@ -1,4 +1,4 @@
-package umc.devapp.crud_produto.controller;
+package com.calazzans.calazzans.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

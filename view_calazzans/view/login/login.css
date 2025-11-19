@@ -121,12 +121,6 @@ body {
     border-color: #1E8449;
 }
 
-.password-group input {
-    /* Ajusta padding para ícones internos */
-    padding-left: 40px;
-    padding-right: 40px; 
-}
-
 .input-icon,
 .password-toggle {
     position: absolute;
@@ -171,7 +165,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* Links secundários */
 .links-section {
     text-align: center;
     margin-top: 25px;

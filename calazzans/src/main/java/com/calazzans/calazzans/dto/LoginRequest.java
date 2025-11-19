@@ -5,7 +5,6 @@ public class LoginRequest {
     private String email;
     private String senha;
 
-    // Getters e Setters
     public String getEmail() {
         return email;
     }
@@ -21,5 +20,5 @@ public class LoginRequest {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+   
 }

@@ -1,12 +1,12 @@
 const form = document.getElementById('login');
 
         form.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Evita que a página recarregue
+            event.preventDefault();
 
             const email = document.getElementById('email').value;
             const senha = document.getElementById('senha').value;
 
-            //Monta o objeto do DTO LoginRequest 
+            //Monta objeto DTO LoginRequest 
             const dadosLogin = {
                 email: email,
                 senha: senha
@@ -26,7 +26,7 @@ const form = document.getElementById('login');
                     alert("Login realizado com sucesso! Bem-vindo " + usuario.email);
 
                     setTimeout(() => {
-                window.location.href = "../view/GerenciarCalazzans.html"
+                window.location.href = "/view_calazzans/GerenciarCalazzans.html"
             }, 1000)
 
                 } else {

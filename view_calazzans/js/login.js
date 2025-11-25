@@ -1,34 +1,46 @@
-document.getElementById("login").addEventListener("submit",async function(e){
-            e.preventDefault();
+const form = document.getElementById('login');
 
-            const email = document.getElementById("email").value;
-            const senha = document.getElementById("senha").value;
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
 
-            const response = await fetch("http://localhost:8080/login",{
-                method :  "POST",
-                headers:{
-                    "Content-Type": "application/json"
-                }, body: JSON.stringify({username: document.getElementById("email").value,
-                password: document.getElementById("senha").value
-                })
-            })
-            const msg = document.getElementById("msg")
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
 
-            //se user e senha estiverem corretor entra na página
-            if(response.ok){
-                const text = await response.text()
-                msg.style.color = "green"
-                msg.textContent = text
+            //Monta objeto DTO LoginRequest 
+            const dadosLogin = {
+                email: email,
+                senha: senha
+            };
 
+            try {
+                const response = await fetch('http://localhost:8080/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dadosLogin)
+                });
 
-            setTimeout(() => {
-                window.location.href = "../view/GerenciarCalazzans.html";
-        }, 1000);
+                if (response.ok) {
+                    const usuario = await response.json();
 
+                    //salva nome do usuario para ser usado na tela após o login
+                     localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
 
-            }else {
-                const text = await response.text()
-                msg.style.color = "red"
-                msg.textContent = text
+                    alert("Login realizado com sucesso! Bem-vindo " + usuario.nome);
+
+                    setTimeout(() => {
+                window.location.href = "/view_calazzans/GerenciarCalazzans.html"
+            }, 1000)
+
+                } else {
+                    const erroTexto = await response.text();
+                    alert("Email ou senha incorretos");
+                    document.getElementById('mensagem').innerText = erroTexto
+                }
+
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('mensagem').innerText = "Erro ao conectar com o servidor."
             }
-        });
+        })

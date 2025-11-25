@@ -31,7 +31,7 @@ public class DespesaRestCalazzans {
 
     @PostMapping("/despesas/add")
 
-    public ResponseEntity<TableDespesa> insertDespesaService(@RequestBody TableDespesa TableDespesa) {
+    public ResponseEntity<TableDespesa> insertDespesaService(@RequestBody TableDespesa TableDespesa) throws Exception{
         TableDespesa newDespesa = TableDespesaService.insertDespesaService(TableDespesa);
         return new ResponseEntity<TableDespesa>(newDespesa, HttpStatus.OK);
     }

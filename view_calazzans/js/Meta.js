@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 Captura os valores do formulário
     const ValorMeta = document.getElementById("valorMeta").value;
-    const id_usuario = 1; // Exemplo fixo, será dinâmico quando tiver login
+    const id_usuario = usuario.id_usuario; // Exemplo fixo, será dinâmico quando tiver login
 
     // 🔹 Monta o objeto
     const payload = {

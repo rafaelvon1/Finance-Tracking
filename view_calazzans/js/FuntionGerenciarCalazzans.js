@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const id_usuario = 1;
     const agrupado = {};
-
-     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+    const id_usuario = usuario.id_usuario
+     
 
      if (usuario) {
         document.getElementById("nomeUsuario").innerText = "Olá, " + usuario.nome + ", vamos gerenciar seu dinheiro";

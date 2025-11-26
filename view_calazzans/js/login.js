@@ -25,7 +25,7 @@ const form = document.getElementById('login');
                     const usuario = await response.json();
 
                     //salva nome do usuario para ser usado na tela após o login
-                     localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+                    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
 
                     alert("Login realizado com sucesso! Bem-vindo " + usuario.nome);
 

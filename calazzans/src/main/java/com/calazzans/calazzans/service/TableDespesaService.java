@@ -2,8 +2,10 @@ package com.calazzans.calazzans.service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.calazzans.calazzans.entity.TableDespesa;
 import com.calazzans.calazzans.repository.TableDespesaRepository;
 
@@ -12,12 +14,16 @@ import com.calazzans.calazzans.repository.TableDespesaRepository;
 public class TableDespesaService {
    @Autowired
    TableDespesaRepository TableDespesaRepository;
-   public List<TableDespesa> getAllDespesa(){
+   public List<TableDespesa> getAllDespesa() {
         List<TableDespesa> despesa = TableDespesaRepository.findAll();
         return despesa;
    }
-   public TableDespesa insertDespesaService(TableDespesa TableDespesa){
+   public TableDespesa insertDespesaService(TableDespesa TableDespesa)throws Exception{
+     try {
         return TableDespesaRepository.save(TableDespesa);
+     } catch (Exception e) {
+        throw new Exception("IMC não atualizado");
+     }
    }
    public Optional<TableDespesa> getDespesaService(Integer id){
         return TableDespesaRepository.findById(id);

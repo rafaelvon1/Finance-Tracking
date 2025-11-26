@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calazzans</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="../css/GerenciarCalazzans.css" rel="stylesheet">
+    <link href="../view_calazzans/css/GerenciarCalazzans.css" rel="stylesheet">
 </head>
 
 <body>  
@@ -14,12 +14,15 @@
     <div class="topo">
         <div class="icone"></div>
         <h1>Calazzans</h1>
+        <button id="logout">Sair</button>
         <div class="icone"></div>
     </div>
 
     <div class="retangulo">
         <div class="texto-retangulo">
-            <div class="intro-text">Vamos gerenciar seu dinheiro</div>
+            <div class="intro-text">
+                <p id="nomeUsuario"></p> 
+            </div>
             <div class="info-linha">
                 <div class="info-item">
                     <div>Saldo do mês:</div>
@@ -230,14 +233,14 @@
 
     </div>
 
-    <script src="../js/vars.js"></script>
-    <script src="../js/FuntionGerenciarCalazzans.js"></script>
-    <script src="../js/Meta.js"></script>
-    <script src="../js/Despesa.js"></script>
+    <script src="../view_calazzans/js/logout.js"></script>
+    <script src="../view_calazzans/js/vars.js"></script>
+    <script src="../view_calazzans/js/FuntionGerenciarCalazzans.js"></script>
+    <script src="../view_calazzans/js/Meta.js"></script>
+    <script src="js/Despesa.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../js/Saldo.js"></script>
-    <script src="../js/GetAllUser.js"></script>
-    
+    <script src="../view_calazzans/js/Saldo.js"></script>
+    <script src="../view_calazzans/js/GetAllUser.js"></script>
 </body>
 
 </html>

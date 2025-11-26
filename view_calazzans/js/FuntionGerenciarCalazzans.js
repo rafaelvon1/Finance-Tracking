@@ -2,6 +2,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const id_usuario = 1;
     const agrupado = {};
 
+     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+     if (usuario) {
+        document.getElementById("nomeUsuario").innerText = "Olá, " + usuario.nome + ", vamos gerenciar seu dinheiro";
+    } else {
+        window.location.href = "/view_calazzans/login.html";
+        return; 
+    }
+
     try {
         // 🔹 Busca despesas do usuário
         const response = await fetch(`${API_URL}/despesas/user?id_usuario=${id_usuario}`);
@@ -19,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 agrupado[d.tag] = d.valor; // cria nova chave
             }
             });
-            const despesasCategoriaLabels = Object.keys(agrupado); // ['alimentacao', 'transporte', 'lazer']
-            const despesasCategoriaValores = Object.values(agrupado); // [150, 50, 200]
+            const despesasCategoriaLabels = Object.keys(agrupado); // 'alimentacao', 'transporte', 'lazer'
+            const despesasCategoriaValores = Object.values(agrupado); // 150, 50, 200
 
 
             // Gráfico de Pizza - Despesas por Categoria
@@ -55,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
         }
     } catch (error) {
-        console.error("❌ Erro ao carregar despesas para o gráfico:", error);
+        console.error("Erro ao carregar despesas para o gráfico:", error);
     }
 
     // --- Modais ---

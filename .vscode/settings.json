@@ -1,3 +1,7 @@
 {
+    "java.project.sourcePaths": [
+        "view_calazzans/img"
+    ]
+
     "java.configuration.updateBuildConfiguration": "interactive"
 }

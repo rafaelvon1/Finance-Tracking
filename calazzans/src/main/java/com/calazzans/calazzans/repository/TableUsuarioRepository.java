@@ -12,4 +12,6 @@ public interface TableUsuarioRepository extends JpaRepository <TableUsuario, Int
 
     @Query(value = "select * from calazzans where salario < :salario", nativeQuery=true)
     List<TableUsuario> findBySalario(@Param("salario") double salario);
+
+    TableUsuario findByEmail(String email);
 }

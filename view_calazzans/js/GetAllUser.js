@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const listaDespesaQuadEl = document.querySelector(".lista-itens");
   const valorQuadradoEl = document.querySelector(".quadrado .valor");
   const valorDespesaQuadradoEl = document.querySelector(".quadrado .valor_despesa");
-  const id_usuario = 1; // Exemplo fixo — depois será dinâmico via login
-
+ // Exemplo fixo — depois será dinâmico via login
+  const id_usuario = usuario.id_usuario
   try {
     // 🔹 Busca os saldos e despesas do usuário
     const [responseSaldo, responseDespesas] = await Promise.all([

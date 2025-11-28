@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("FormDespesa");
   const DespesaEl = document.getElementById("despesas");
-  const id_usuario = 1;
+  const id_usuario = usuario.id_usuario;
   let editId = null;
   window.editId_despesa = function (id) {
   editId = id;

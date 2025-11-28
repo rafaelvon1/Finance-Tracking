@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form_saldo = document.getElementById("FormSaldo");
   const saldoEl = document.getElementById("saldo");
-  const id_usuario = 1;
+  const id_usuario = usuario.id_usuario;
   let editId = null;
 
   // 🔹 Define o ID de edição e carrega dados
